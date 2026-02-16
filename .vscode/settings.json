@@ -1,0 +1,5 @@
+{
+  "editor.formatOnSave": true,
+  "tinymist.fontPaths": ["./fonts/ttf/"],
+  "tinymist.systemFonts": false
+}
