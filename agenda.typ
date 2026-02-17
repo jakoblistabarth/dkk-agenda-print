@@ -10,8 +10,6 @@
   return date-time-start
 })
 
-// #panic(agenda.map(d => (d._embedded.at("acf:term").at(0).name, none)).dedup(key: it => it.at(0)).to-dict())
-
 #let agenda-by-type = agenda.fold(
   agenda.map(d => (d._embedded.at("acf:term").at(0).name, ())).dedup(key: it => it.at(0)).to-dict(),
   (acc, d) => {
@@ -25,12 +23,23 @@
 
 #title()
 
-= Workshops
+Die DKK 2026 findet von 27.--29. Mai 2026 an der Technischen Universität Dresden statt. Das Programm umfasst Keynotes, Vorträge und Workshops sowie Exkursionen und Rahmenprogramm.
 
-// #panic(..agenda-by-type.at("Workshop"))
+#table(
+  columns: 4,
+  rows: 3,
+  stroke: none,
+  align: center + horizon,
+  table.header([], [Mittwoch, 27.5.2026], [Donnerstag, 27.5.2026], [Freitag, 29.5.2026]),
+  [Vormittag], [Workshops], [Keynote und Vorträge], [Keynote und Vorträge],
+  [Nachmittag], [Keynote und Vorträge], [Keynote und Vorträge], [Exkursionen und Rahmenprogramm],
+  [Abend], [Kartograph*innen-Treff], [Gemeinsames Abendessen], [],
+)
 
-#stack(dir: ttb, spacing: 1em, ..agenda-by-type.at("Workshop").map(d => agenda-item(d)))
-
-= Vorträge
+= Vorträge nach Session
 
 #stack(dir: ttb, spacing: 1em, ..agenda-by-type.at("Vortrag").map(d => agenda-item(d)))
+
+= Workshops
+
+#stack(dir: ttb, spacing: 1em, ..agenda-by-type.at("Workshop").map(d => agenda-item(d)))
