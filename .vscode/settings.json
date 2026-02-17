@@ -1,5 +1,6 @@
 {
   "editor.formatOnSave": true,
   "tinymist.fontPaths": ["./fonts/ttf/"],
-  "tinymist.systemFonts": false
+  "tinymist.systemFonts": false,
+  "makefile.configureOnOpen": false
 }
