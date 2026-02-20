@@ -8,12 +8,10 @@
     let (year, month, day) = date.split("-")
     let end-time = d.acf.end_time.slice(11)
 
-    [#day.#month.#year, #start-time#sym.dash.en#end-time]
+    heading(level: 3, d.title.rendered)
+    [#start-time#sym.dash.en#end-time]
     linebreak()
-    heading(level: 2, d.title.rendered)
-    linebreak()
-    d.acf.speaker.map(s => s.post_title).join(" · ")
-    linebreak()
-    if ("session" in d.acf and d.acf.session != false) { d.acf.session.post_title }
+    let speaker = d.acf.at("speaker", default: ())
+    if (speaker != false) { speaker.map(s => s.post_title).join(" · ") }
   },
 )

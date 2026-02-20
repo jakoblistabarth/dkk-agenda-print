@@ -23,11 +23,6 @@ refresh:
 	@curl -o $(DATA_OUT) "$(DATA_URL)" || { echo "Download failed"; exit 1; }
 	@echo "Data downloaded and saved to $(DATA_OUT)"
 
-# Validate JSON (requires jq)
-validate: $(DATA_OUT)
-	@which jq >/dev/null 2>&1 || { echo "jq not found; install jq to validate JSON"; exit 1; }
-	@jq empty $(DATA_OUT) >/dev/null 2>&1 && echo "JSON valid" || (echo "JSON invalid"; exit 1)
-
 clean:
 	@rm -f $(DATA_OUT)
 	@echo "Removed $(DATA_OUT)"
@@ -53,12 +48,3 @@ $(FONTS_ARCHIVE):
 clean-fonts:
 	@rm -rf $(FONTS_DIR)
 	@echo "Removed $(FONTS_DIR) and archive"
-
-help:
-	@echo "Usage: make [target]"
-	@echo "Targets:"
-	@echo "  get-data   - download data if remote is newer (default)"
-	@echo "  refresh    - force re-download of data"
-	@echo "  validate   - validate $(DATA_OUT) using jq"
-	@echo "  clean      - remove $(DATA_OUT)"
-	@echo "  help       - show this message"
