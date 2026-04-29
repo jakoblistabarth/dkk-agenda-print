@@ -14,14 +14,28 @@
   json(file).map(d => (str(d.id), (name: d.title.rendered, ..d.acf))).to-dict()
 )
 
+#let get-location-by-id = (locations, id) => locations.at(str(id), default: none)
+
 #let parse-agenda = file => (
   json(file)
     .map(d => {
       let start = parse-date-time(d.acf.start_time)
       let end = parse-date-time(d.acf.end_time)
       let session = d._embedded.at("acf:post").find(d => d.type == "dkk_session")
-      let type = d._embedded.at("acf:term").find(d => d.taxonomy == "agenda_item_category")
-      (date-time-start: start, date-time-end: end, session: session, type: type, ..d)
+      let hasSession = session != none
+      let item-type = d._embedded.at("acf:term").find(d => d.taxonomy == "agenda_item_category")
+      let locationPointer = if (hasSession) {
+        d._embedded.at("acf:post").find(d => d.type == "dkk_session").acf.location
+      } else {
+        d.acf.location.ID
+      }
+      let locationId = if (type(locationPointer) == array) {
+        locationPointer.at(0)
+      } else {
+        locationPointer
+      }
+      let location = get-location-by-id(parse-locations("locations.json"), locationId)
+      (date-time-start: start, location: location, date-time-end: end, session: session, type: item-type, ..d)
     })
     .sorted(key: d => d.date-time-start)
 )
@@ -33,22 +47,16 @@
 
 // Get all sessions from the agenda, with their associated agenda items
 #let get-sessions = agenda => {
-  let locations = parse-locations("locations.json")
   return (
     agenda
       .filter(d => "session" in d and d.session != none)
-      .map(d => d.at("session"))
+      .map(d => (..d.at("session"), location: d.location))
       .dedup(key: it => it.id)
       .map(d => {
-        let locationPointer = d.acf.at("location")
-        let locationId
-        if type(locationPointer) == array { locationId = locationPointer.at(0) } else { locationId = locationPointer }
-        let location = locations.at(str(locationId), default: none)
         return (
+          ..d,
           date-time-start: parse-date-time(d.acf.start_time),
           date-time-end: parse-date-time(d.acf.end_time),
-          ..d,
-          acf: (location: location),
           agenda-items: get-session-items-by-id(agenda, d.id),
         )
       })
@@ -58,15 +66,7 @@
 #let extract-schedule-items = agenda => {
   let sessions = get-sessions(agenda)
 
-  let agenda-items-without-session = agenda
-    .filter(d => ("session" not in d.acf or d.acf.session == false))
-    .map(d => {
-      let locationId = d._embedded.at("acf:post").filter(d => d.type == "dkk_location").at(0).id
-      let locations = parse-locations("locations.json")
-      let location = locations.at(str(locationId), default: none)
-      return (..d, location: location)
-    })
-
+  let agenda-items-without-session = agenda.filter(d => ("session" not in d.acf or d.acf.session == false))
 
   let schedule-items = (..sessions, ..agenda-items-without-session)
 

@@ -88,10 +88,6 @@ Der DKK endet mit zwei Exkursionen am Freitag, 29. Mai 2026.
             let hasParallelSessions = (
               sessions.filter(parallel-Item => d.date-time-start == parallel-Item.date-time-start).len() > 1
             )
-            let location = d.acf.at(
-              "location",
-              default: none,
-            )
             grid.cell(
               inset: (top: if isSessionWithItems { 2em } else { 0em }),
               colspan: if (hasTrack and hasParallelSessions == true) { 1 } else { 2 },
@@ -100,11 +96,8 @@ Der DKK endet mit zwei Exkursionen am Freitag, 29. Mai 2026.
                 d.date-time-start.display("[hour]:[minute]")
                 sym.dash.en
                 d.date-time-end.display("[hour]:[minute]")
-                location-item(location)
-                stack(dir: ttb, spacing: 1em, ..items.map(i => agenda-item((
-                  ..i,
-                  location: location,
-                ))))
+                location-item(d.location)
+                stack(dir: ttb, spacing: 1em, ..items.map(i => agenda-item((i))))
               } else {
                 agenda-item(d)
               },
