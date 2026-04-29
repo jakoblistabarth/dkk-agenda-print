@@ -1,31 +1,26 @@
 # Configurable variables
-DATA_URL := https://dkk.dgfk.net/wp-json/wp/v2/dkk_agenda_item/?_embed=&per_page=100&_fields=title,content,guid,acf,_embedded,_links
-DATA_OUT := agenda.json
+AGENDA_URL := https://dkk.dgfk.net/wp-json/wp/v2/dkk_agenda_item/?_embed=&per_page=100&_fields=title,content,guid,acf,_embedded,_links
+AGENDA_OUT := agenda.json
+LOCATIONS_URL := https://dkk.dgfk.net/wp-json/wp/v2/dkk_location/?_embed=&per_page=100&_fields=id,title,acf,_embedded
+LOCATIONS_OUT := locations.json
 
 FONTS_URL := https://api.fontsource.org/v1/download/source-sans-3
 FONTS_DIR := fonts
 FONTS_ARCHIVE := $(FONTS_DIR)/source-sans-3.zip
 
-.PHONY: get-data refresh validate clean help get-fonts clean-fonts
+.PHONY: refresh validate clean help get-fonts clean-fonts
 
-# Default target
-get-data: $(DATA_OUT)
-
-# Download only when remote is newer (uses curl -z)
-$(DATA_OUT):
-	@echo "Downloading data to $@..."
-	@curl -z $@ -o $@ "$(DATA_URL)" || { echo "Download failed"; exit 1; }
-	@echo "Data downloaded and saved to $@"
-
-# Force re-download
+# Download
 refresh:
-	@echo "Forcing re-download..."
-	@curl -o $(DATA_OUT) "$(DATA_URL)" || { echo "Download failed"; exit 1; }
-	@echo "Data downloaded and saved to $(DATA_OUT)"
+	@echo "Download..."
+	@curl -o $(AGENDA_OUT) "$(AGENDA_URL)" || { echo "Download failed"; exit 1; }
+	@echo "Agenda data downloaded and saved to $(AGENDA_OUT)"
+	@curl -o $(LOCATIONS_OUT) "$(LOCATIONS_URL)" || { echo "Download failed"; exit 1; }
+	@echo "Locations data downloaded and saved to $(LOCATIONS_OUT)"
 
 clean:
-	@rm -f $(DATA_OUT)
-	@echo "Removed $(DATA_OUT)"
+	@rm -f $(AGENDA_OUT) $(LOCATIONS_OUT)
+	@echo "Removed $(AGENDA_OUT) and $(LOCATIONS_OUT)"
 
 # Download and extract fonts
 get-fonts: $(FONTS_ARCHIVE)
