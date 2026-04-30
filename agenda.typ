@@ -4,6 +4,7 @@
 
 #set document(author: "Jakob Listabarth", title: "74. Deutscher Kartographie Kongress 2026", date: datetime.today())
 #set page(
+  paper: "a5",
   margin: (top: 2cm, rest: 1.5cm),
   header: {
     image("links/dgfk-logo-small.svg", height: 1.5em)
@@ -15,7 +16,7 @@
     counter(page).display("1 von 1", both: true)
   },
 )
-#set text(font: "Source Sans 3", lang: "de")
+#set text(font: "Source Sans 3", lang: "de", size: 9pt)
 
 #show heading: set text(fill: colors.dark-green)
 #show heading: set par(leading: .4em)
@@ -31,6 +32,18 @@
 #let agenda = parse-agenda("agenda.json")
 #let schedule-items = extract-schedule-items(agenda)
 
+#align(horizon + center, {
+  set text(fill: colors.dark-green)
+  grid(
+    align: right,
+    gutter: 1em,
+    text(size: 5em, weight: "black")[74. DKK],
+    text(size: 2em)[Dresden 2026],
+  )
+})
+
+#pagebreak()
+
 #pad(top: 1em, bottom: 1em, {
   set text(fill: colors.dark-green)
   grid(
@@ -41,10 +54,12 @@
   )
 })
 
-#block(width: 35em)[
-  Der 74. Deutsche Kartographie Kongress der DGfK findet vom 27. bis 29. Mai 2026 an der Technischen Universität Dresden statt. Das Programm umfasst Keynotes, Vorträge und Workshops sowie Exkursionen und Rahmenprogramm.
+Der 74. Deutsche Kartographie Kongress der DGfK findet vom 27. bis 29. Mai 2026 an der Technischen Universität Dresden statt. Das Programm umfasst Keynotes, Vorträge und Workshops sowie Exkursionen und Rahmenprogramm.
 
-  Die Kongresstage werden mit zwei Keynote-Vorträgen namhafter Referenten eröffnet:
+Die Kongresstage werden mit zwei Keynote-Vorträgen namhafter Referenten eröffnet:
+
+- *Jochen Topf* spricht unter dem Titel _"Wir setzen alles auf eine Karte! -- Kartographie und Technik bei OpenStreetMap"_ über Chancen, Entwicklungen und Bedeutung freier Geodaten.
+- *Dr. Rolf Böhm* widmet sich in seiner Keynote _"Manuelles Kartenzeichnen 2026"_ den Grundlagen, Qualitäten und dem Selbstverständnis kartographischer Arbeit zwischen Tradition und Innovation.
 
   - *Jochen Topf* spricht unter dem Titel _"Wir setzen alles auf eine Karte! -- Kartographie und Technik bei OpenStreetMap"_ über Chancen, Entwicklungen und Bedeutung freier Geodaten.
   - *Dr. Rolf Böhm* widmet sich in seiner Keynote _"Manuelles Kartenzeichnen 2026"_ den Grundlagen, Qualitäten und dem Selbstverständnis kartographischer Arbeit zwischen Tradition und Innovation.
