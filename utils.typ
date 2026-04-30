@@ -59,7 +59,7 @@
           agenda-items: get-session-items-by-id(agenda, d.id),
         )
       })
-  )
+  ).sorted(key: d => d.date-time-start)
 }
 
 #let extract-schedule-items = agenda => {
