@@ -2,4 +2,6 @@ fonts/
 agenda.json
 locations.json
 
+*.pdf
+
 .DS_Store
