@@ -12,16 +12,31 @@
 
 #let agenda-item = d => rect(
   width: 100%,
-  stroke: .5pt + green,
+  stroke: .5pt + colors.dark-green,
   radius: .25em,
   inset: .5em,
-  fill: if (d.type.slug != "talk") { colors.light-green } else { white },
+  fill: if (d.type.slug in ("excursion", "dgfk", "workshop", "social")) { colors.lime-green-light } else if (
+    d.type.slug == "keynote"
+  ) {
+    colors.light-green
+  } else { white },
   {
     let (date, start-time) = d.acf.start_time.split(" ")
     let (year, month, day) = date.split("-")
     let end-time = d.acf.end_time.slice(11)
     let speaker = d.acf.at("speaker", default: ())
     let isNoTalk = d.type.slug != "talk"
+    let icon = if (d.type.slug == "excursion") {
+      "links/compass-line.svg"
+    } else if (d.type.slug == "social") {
+      "links/chat-smile-2-line.svg"
+    } else if (d.type.slug == "workshop") {
+      "links/pencil-ruler-line.svg"
+    } else if (d.type.slug == "keynote") {
+      "links/keynote-line.svg"
+    }
+
+    let icon-colored = color-svg-icon(icon, white)
 
     if (isNoTalk) {
       rect(
@@ -30,21 +45,25 @@
         stroke: 0pt,
         fill: colors.dark-green,
         radius: (bottom: .25em),
-        text(
-          fill: white,
-          weight: 900,
-          tracking: .1em,
-          size: .7em,
-          upper(d.type.name),
-        ),
+        {
+          if (icon != none) { box(baseline: 0.1em, inset: (right: .2em), image(icon-colored, height: .7em)) }
+          text(
+            fill: white,
+            weight: 900,
+            tracking: .1em,
+            size: .7em,
+            upper(d.type.name),
+          )
+        },
       )
     }
     heading(level: 4, html-unescape(d.title.rendered))
     [#start-time#sym.dash.en#end-time]
     if ("location" in d and d.type.slug in ("workshop", "social", "dgfk", "excursion")) { location-item(d.location) }
-    if (speaker != false) {
+    if (speaker != false and speaker.len() > 0) {
+      let icon = if (speaker.len() > 1) { "links/group-line.svg" } else { "links/user-line.svg" }
       [ · ]
-      box(inset: (x: .25em), image("links/group-line.svg", height: .8em)) + speaker.map(s => s.post_title).join(" · ")
+      box(inset: (x: .25em), image(icon, height: .8em)) + speaker.map(s => s.post_title).join(" · ")
     }
   },
 )

@@ -6,7 +6,6 @@
 }
 
 #let html-unescape = s => {
-  /* replace numeric entities (&#8211;, &#x2013;) and common named entities (&ndash;, &amp;, &quot;, …) */
   s.replace("&#8211;", sym.dash.en).replace("&#x2013;", sym.dash.en).replace("&#038;", "&")
 }
 
@@ -90,3 +89,12 @@
 }
 
 #let get-agenda-by-type = (agenda, name) => agenda.filter(d => d.type.name == name)
+
+
+#let color-svg-icon = (icon, color) => {
+  if (icon == none) { return none }
+
+  let contents = read(icon)
+  contents = contents.replace("currentColor", "white")
+  return bytes(contents)
+}

@@ -2,7 +2,7 @@
 #import "components.typ": *
 #import "utils.typ": *
 
-#set document(author: "Jakob Listabarth", title: "74. DKK 2026", date: datetime.today())
+#set document(author: "Jakob Listabarth", title: "74. Deutscher Kartographie Kongress 2026", date: datetime.today())
 #set page(
   margin: (top: 2cm, rest: 1.5cm),
   header: {
@@ -17,20 +17,38 @@
 )
 #set text(font: "Source Sans 3", lang: "de")
 
-#show title: set text(fill: colors.dark-green, size: 1.5em, weight: 300)
-
-#show heading.where(level: 1): set block(above: 3em)
-#show heading.where(level: 1): set text(weight: "light", size: 1.5em)
-#show heading.where(level: 2): set block(above: .5em, below: 0em)
 #show heading: set text(fill: colors.dark-green)
 #show heading: set par(leading: .4em)
+
+#show heading.where(level: 1): set block(above: 1.75em)
+#show heading.where(level: 1): set text(weight: "light", size: 1.5em)
+#show heading.where(level: 2): set block(above: .75em, below: 0em)
+#show heading.where(level: 3): set text(weight: 400, size: 1.3em)
+#show heading.where(level: 4): set text(weight: 600)
+#show heading.where(level: 4): set block(below: 0.45em)
+
 
 #let agenda = parse-agenda("agenda.json")
 #let schedule-items = extract-schedule-items(agenda)
 
-#title()
+#pad(top: 1em, bottom: 1em, {
+  set text(fill: colors.dark-green)
+  grid(
+    align: right,
+    gutter: .5em,
+    text(weight: "black", size: 2.5em, "74. DKK"),
+    text(size: 1.275em)[Dresden 2026],
+  )
+})
 
-Die DKK 2026 findet von 27.--29. Mai 2026 an der Technischen Universität Dresden statt. Das Programm umfasst Keynotes, Vorträge und Workshops sowie Exkursionen und Rahmenprogramm.
+#block(width: 35em)[
+  Der 74. Deutsche Kartographie Kongress der DGfK findet vom 27. bis 29. Mai 2026 an der Technischen Universität Dresden statt. Das Programm umfasst Keynotes, Vorträge und Workshops sowie Exkursionen und Rahmenprogramm.
+
+  Die Kongresstage werden mit zwei Keynote-Vorträgen namhafter Referenten eröffnet:
+
+  - *Jochen Topf* spricht unter dem Titel _"Wir setzen alles auf eine Karte! -- Kartographie und Technik bei OpenStreetMap"_ über Chancen, Entwicklungen und Bedeutung freier Geodaten.
+  - *Dr. Rolf Böhm* widmet sich in seiner Keynote _"Manuelles Kartenzeichnen 2026"_ den Grundlagen, Qualitäten und dem Selbstverständnis kartographischer Arbeit zwischen Tradition und Innovation.
+]
 
 = Übersicht
 
@@ -51,24 +69,6 @@ Die DKK 2026 findet von 27.--29. Mai 2026 an der Technischen Universität Dresde
   [Abend], [Kartograph*innen-#sym.wj;Treff], [Gemeinsames Abendessen], [],
 )
 
-= Workshops
-
-Im Rahmen des DKK finden zwei Workshops rund um Open-Source-Software für Kartographie statt. Beide Workshops finden am Mittwoch, dem 27. Mai am Nachmittag statt. Workshops bitte gleich bei der Registrierung für die Konferenz mitbuchen. Danke!
-
-#stack(dir: ttb, spacing: 1em, ..get-agenda-by-type(agenda, "Workshop").map(d => agenda-item(d)))
-
-= Rahmenprogramm / Netzwerken
-
-Für die nachfolgenden Programmpunkte konnten Sie sich im Rahmen der Konferenz-Registrierung verbindlich anmelden.
-
-#stack(dir: ttb, spacing: 1em, ..get-agenda-by-type(agenda, "Soziales / Networking").map(d => agenda-item(d)))
-
-= Exkursionen
-
-Der DKK endet mit zwei Exkursionen am Freitag, 29. Mai 2026.
-
-#stack(dir: ttb, spacing: 1em, ..get-agenda-by-type(agenda, "Exkursion").map(d => agenda-item(d)))
-
 = Komplettes Programm
 
 #(
@@ -79,7 +79,7 @@ Der DKK endet mit zwei Exkursionen am Freitag, 29. Mai 2026.
         heading(level: 2, date)
         v(1em)
         grid(
-          columns: (1fr, 1fr), gutter: 1em,
+          columns: (1fr, 1fr), gutter: 1.25em,
           ..sessions.map(d => {
             let items = d.at("agenda-items", default: ())
             let isSessionWithItems = items.len() > 0
@@ -88,7 +88,7 @@ Der DKK endet mit zwei Exkursionen am Freitag, 29. Mai 2026.
               sessions.filter(parallel-Item => d.date-time-start == parallel-Item.date-time-start).len() > 1
             )
             grid.cell(
-              inset: (top: if isSessionWithItems { 2em } else { 0em }),
+              inset: (top: if isSessionWithItems { 2.25em } else { 0em }),
               colspan: if (hasTrack and hasParallelSessions == true) { 1 } else { 2 },
               if (isSessionWithItems) {
                 heading(level: 3, d.title.rendered)
@@ -96,7 +96,7 @@ Der DKK endet mit zwei Exkursionen am Freitag, 29. Mai 2026.
                 sym.dash.en
                 d.date-time-end.display("[hour]:[minute]")
                 location-item(d.location)
-                stack(dir: ttb, spacing: 1em, ..items.map(i => agenda-item((i))))
+                stack(dir: ttb, spacing: .5em, ..items.map(i => agenda-item((i))))
               } else {
                 agenda-item(d)
               },
