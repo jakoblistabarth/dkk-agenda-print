@@ -1,3 +1,5 @@
+#import "@preview/zebra:0.1.0": qrcode
+
 #import "globals.typ": *
 #import "components.typ": *
 #import "utils.typ": *
@@ -28,6 +30,7 @@
 #show heading.where(level: 4): set text(weight: 600)
 #show heading.where(level: 4): set block(below: 0.45em)
 
+#show link: it => underline(it)
 
 #let agenda = parse-agenda("agenda.json")
 #let schedule-items = extract-schedule-items(agenda)
@@ -61,8 +64,12 @@ Die Kongresstage werden mit zwei Keynote-Vorträgen namhafter Referenten eröffn
 - *Jochen Topf* spricht unter dem Titel _"Wir setzen alles auf eine Karte! -- Kartographie und Technik bei OpenStreetMap"_ über Chancen, Entwicklungen und Bedeutung freier Geodaten.
 - *Dr. Rolf Böhm* widmet sich in seiner Keynote _"Manuelles Kartenzeichnen 2026"_ den Grundlagen, Qualitäten und dem Selbstverständnis kartographischer Arbeit zwischen Tradition und Innovation.
 
-  - *Jochen Topf* spricht unter dem Titel _"Wir setzen alles auf eine Karte! -- Kartographie und Technik bei OpenStreetMap"_ über Chancen, Entwicklungen und Bedeutung freier Geodaten.
-  - *Dr. Rolf Böhm* widmet sich in seiner Keynote _"Manuelles Kartenzeichnen 2026"_ den Grundlagen, Qualitäten und dem Selbstverständnis kartographischer Arbeit zwischen Tradition und Innovation.
+#rect(fill: colors.light-green, radius: .5em, inset: 1em)[
+  #set text(fill: colors.dark-green)
+  *Whats-App-Community*\
+  In der Whatsapp-Community zur 74. DKK erhalten Sie immer aktuelle Informationen zum Kongress, dem Rahmenprogramm und ggfs. kurzfristige Änderungen. Hier geht's zur Whatsapp-Gruppe: #link("https://chat.whatsapp.com/EXAMPLELINK").
+
+  #qrcode("", fill: colors.dark-green, height: 3em, background-fill: white, quiet-zone: 3)
 ]
 
 = Übersicht
