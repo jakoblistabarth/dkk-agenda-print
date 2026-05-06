@@ -57,7 +57,7 @@
         },
       )
     }
-    heading(level: 4, html-unescape(d.title.rendered))
+    heading(level: 3, html-unescape(d.title.rendered))
     [#start-time#sym.dash.en#end-time]
     if ("location" in d and d.type.slug in ("workshop", "social", "dgfk", "excursion")) { location-item(d.location) }
     if (speaker != false and speaker.len() > 0) {
