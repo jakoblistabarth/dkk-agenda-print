@@ -59,7 +59,10 @@
     }
     heading(level: 3, html-unescape(d.title.rendered))
     [#start-time#sym.dash.en#end-time]
-    if ("location" in d and d.type.slug in ("workshop", "social", "dgfk", "excursion")) { location-item(d.location) }
+    if (
+      // show location if exists for non-talk items
+      "location" in d and d.location != none and d.type.slug != "talk"
+    ) { location-item(d.location) }
     if (speaker != false and speaker.len() > 0) {
       let icon = if (speaker.len() > 1) { "links/group-line.svg" } else { "links/user-line.svg" }
       [ · ]
