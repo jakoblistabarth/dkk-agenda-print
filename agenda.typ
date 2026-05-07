@@ -79,16 +79,20 @@
     .join("")
 )
 
-#rect(fill: colors.light-green, radius: .5em, inset: 2em, width: 100%)[
-  #set text(fill: colors.dark-green)
-  *Whats-App-Community*\
-  In der Whatsapp-Community zur 74. DKK erhalten Sie immer aktuelle Informationen zum Kongress, dem Rahmenprogramm und ggfs. kurzfristige Änderungen. Hier geht's zur Whatsapp-Gruppe:
-
-  #qrcode(
+#v(5em)
+#rect(fill: colors.light-green, radius: .5em, inset: 2em, width: 100%, grid(
+  columns: (1fr, auto),
+  gutter: 3em,
+  [
+    #set text(fill: colors.dark-green)
+    *WhatsApp Community*\
+    In der _WhatsApp Community_ zum 74. DKK erhalten Sie immer aktuelle Informationen zum Kongress, dem Rahmenprogramm und ggfs. kurzfristige Änderungen. Scannen Sie den QR Code mit Ihrem Smartphone um der _Community_ beizutreten.
+  ],
+  qrcode(
     "https://chat.whatsapp.com/BJyEPJHogI9IaCZ4plJaOF",
     fill: colors.dark-green,
     height: 5em,
     background-fill: white,
     quiet-zone: 3,
-  )
-]
+  ),
+))
