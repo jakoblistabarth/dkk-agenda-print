@@ -67,7 +67,10 @@
     if (speaker != false and speaker.len() > 0) {
       let icon = if (speaker.len() > 1) { "links/group-line.svg" } else { "links/user-line.svg" }
       [ · ]
-      box(inset: (x: .25em), image(icon, height: .8em)) + speaker.map(s => s.post_title).join(" · ")
+      (
+        box(inset: (x: .25em), image(icon, height: .8em))
+          + speaker.map(s => s.post_title.replace(" ", sym.space.nobreak)).join(" · ")
+      )
     }
   },
 )
