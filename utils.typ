@@ -67,7 +67,7 @@
 
   let agenda-items-without-session = agenda.filter(d => ("session" not in d.acf or d.acf.session == false))
 
-  let schedule-items = (..sessions, ..agenda-items-without-session)
+  let schedule-items = (..sessions, ..agenda-items-without-session).sorted(key: d => d.date-time-start)
 
   let days = schedule-items
     .sorted(key: d => d.date-time-start)
