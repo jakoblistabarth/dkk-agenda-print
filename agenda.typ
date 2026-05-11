@@ -33,12 +33,12 @@
 #let agenda = parse-agenda("agenda.json")
 #let schedule-items = extract-schedule-items(agenda)
 
-#pad(top: 1em, bottom: 1em, {
+#pad(top: 1em, {
   set text(fill: colors.dark-green)
   grid(
     align: right,
-    gutter: .5em,
-    text(weight: "black", size: 2.5em, "74. DKK"),
+    gutter: .75em,
+    text(weight: "black", size: 2.5em)[74. Deutscher Kartographie Kongress],
     text(size: 1.275em)[Dresden 2026],
   )
 })
