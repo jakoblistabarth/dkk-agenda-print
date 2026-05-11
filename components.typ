@@ -57,6 +57,7 @@
         },
       )
     }
+    show heading: set block(above: .7em)
     heading(level: 3, html-unescape(d.title.rendered))
     [#start-time#sym.dash.en#end-time]
     if (
