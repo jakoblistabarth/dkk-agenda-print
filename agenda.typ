@@ -8,8 +8,22 @@
 #set page(
   paper: "a5",
   margin: (top: 1.5cm, rest: .75cm),
-  header: {
-    image("links/dgfk-logo-small.svg", height: 1.5em)
+  header: context {
+    grid(
+      columns: (1fr, 1fr),
+      align: (left, right),
+      image("links/dgfk-logo-small.svg", height: 1.5em),
+
+      if here().page() > 1 {
+        set text(fill: colors.dark-green)
+        grid(
+          align: right,
+          gutter: .2em,
+          text(weight: "black")[74. DKK],
+          text(size: .75em)[Dresden 2026],
+        )
+      },
+    )
   },
   footer: context {
     set text(size: .8em)
