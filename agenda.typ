@@ -100,7 +100,7 @@
   [
     #set text(fill: colors.dark-green)
     *WhatsApp Community*\
-    In der _WhatsApp Community_ zum 74. DKK erhalten Sie immer aktuelle Informationen zum Kongress, dem Rahmenprogramm und ggfs. kurzfristige Änderungen. Scannen Sie den QR Code mit Ihrem Smartphone um der _Community_ beizutreten.
+    In der _WhatsApp Community_ zum 74. Deutschen Kartographie Kongress erhalten Sie immer aktuelle Informationen zum Kongress, dem Rahmenprogramm und ggfs. kurzfristige Änderungen. Scannen Sie den QR-Code mit Ihrem Smartphone, um der _Community_ beizutreten.
   ],
   qrcode(
     "https://chat.whatsapp.com/BJyEPJHogI9IaCZ4plJaOF",
