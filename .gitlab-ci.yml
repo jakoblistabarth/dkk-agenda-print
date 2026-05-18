@@ -19,8 +19,8 @@ render:
     - chmod +x /usr/local/bin/typst || true
   script: |
     # Only run scheduled or push pipelines and stop after 2026-05-31
-    if [ "$CI_PIPELINE_SOURCE" != "schedule" ] && [ "$CI_PIPELINE_SOURCE" != "push" ]; then
-      echo "Skipping: not a scheduled or push pipeline"
+    if [ "$CI_PIPELINE_SOURCE" != "schedule" ] && [ "$CI_PIPELINE_SOURCE" != "push" ] && [ "$CI_PIPELINE_SOURCE" != "web" ]; then
+      echo "Skipping: not a scheduled, push or manual (web) pipeline"
       exit 0
     fi
     RUN_DATE="$(date -u +%Y-%m-%d)"
@@ -37,6 +37,8 @@ render:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: always
     - if: '$CI_PIPELINE_SOURCE == "push"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "web"'
       when: always
     - when: never
 
@@ -59,5 +61,7 @@ pages:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: always
     - if: '$CI_PIPELINE_SOURCE == "push"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "web"'
       when: always
     - when: never
