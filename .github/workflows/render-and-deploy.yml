@@ -1,0 +1,60 @@
+name: Render and deploy Pages
+
+on:
+    workflow_dispatch: {}
+    push:
+        branches: [main]
+    schedule:
+        - cron: "0 0,6,12,18 * * *" # 4× daily (UTC)
+
+permissions:
+    contents: read
+    pages: write
+
+jobs:
+    build-and-upload:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Date cutoff
+              run: |
+                  RUN_DATE=$(date -u +%Y-%m-%d)
+                  if [[ "$RUN_DATE" > "2026-05-31" ]]; then
+                    echo "Schedule window ended ($RUN_DATE)"; exit 0
+                  fi
+            - uses: actions/checkout@v4
+            - name: Install system deps
+              run: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends ca-certificates curl make tar gzip
+
+            - name: Build (get data)
+              run: make refresh
+
+            # Install fonts
+            - uses: fontist/setup-fontist@v2
+            - run: fontist install --formula "google/source_sans_3"
+
+            # Install typst
+            - uses: typst-community/setup-typst@v5
+            - run: typst c agenda.typ dkk-programm.pdf --font-path ~/.fontist/fonts
+
+            - name: Prepare Pages artifact
+              run: |
+                  mkdir -p public
+                  if [ -f dkk-programm.pdf ]; then cp dkk-programm.pdf public/; fi
+
+            - name: Upload Pages artifact
+              uses: actions/upload-pages-artifact@v4
+              with:
+                  path: public
+        permissions:
+            actions: write
+
+    deploy:
+        needs: build-and-upload
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            id-token: write
+            pages: write
+        steps:
+            - name: Deploy to GitHub Pages
+              uses: actions/deploy-pages@v4
