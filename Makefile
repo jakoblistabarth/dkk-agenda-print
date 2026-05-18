@@ -8,7 +8,7 @@ FONTS_URL := https://api.fontsource.org/v1/download/source-sans-3
 FONTS_DIR := fonts
 FONTS_ARCHIVE := $(FONTS_DIR)/source-sans-3.zip
 
-.PHONY: refresh validate clean help get-fonts clean-fonts
+.PHONY: refresh clean help get-fonts clean-fonts
 
 # Download
 refresh:
@@ -43,3 +43,17 @@ $(FONTS_ARCHIVE):
 clean-fonts:
 	@rm -rf $(FONTS_DIR)
 	@echo "Removed $(FONTS_DIR) and archive"
+
+# Typst render
+TYPST ?= typst
+TYPST_IN ?= agenda.typ
+TYPST_OUT ?= dkk-programm.pdf
+TYPST_FLAGS ?=
+
+.PHONY: typst
+typst: $(TYPST_OUT)
+
+$(TYPST_OUT): $(TYPST_IN)
+	@command -v $(TYPST) >/dev/null 2>&1 || { echo "Install typst: https://typst.org"; exit 1; }
+	@echo "Rendering $(TYPST_IN) → $@"
+	@$(TYPST) compile $(TYPST_IN) $@ $(TYPST_FLAGS)
