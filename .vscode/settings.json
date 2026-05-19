@@ -1,6 +1,6 @@
 {
   "editor.formatOnSave": true,
-  "tinymist.fontPaths": ["./fonts/ttf/"],
+  "tinymist.fontPaths": ["/Users/jakoblistabarth/.fontist/fonts/"],
   "tinymist.systemFonts": false,
   "makefile.configureOnOpen": false
 }
