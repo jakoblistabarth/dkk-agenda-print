@@ -10,10 +10,19 @@
   margin: (top: 1.5cm, rest: .75cm),
   header: context {
     grid(
-      columns: (1fr, 1fr),
-      align: (left, right),
+      columns: if here().page() == 1 { (1fr, 1fr) } else { (1fr, 1fr, 1fr) },
+      align: if here().page() == 1 { (left, right) } else { (left, center, right) },
       image("links/dgfk-logo-small.svg", height: 1.5em),
-
+      align(horizon, {
+        set par(leading: .25em)
+        stack(
+          dir: ltr,
+          spacing: .5em,
+          align(right, text(size: .5em)[Mit freundlicher\ Unterstützung von]),
+          image("links/Esri_Deutschland_Emblem_tag_ohne_1C.png", height: 2em),
+          image("links/ocad-logo.jpg", height: 1.5em),
+        )
+      }),
       if here().page() > 1 {
         set text(fill: colors.dark-green)
         grid(
