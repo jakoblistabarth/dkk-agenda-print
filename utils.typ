@@ -54,6 +54,7 @@
       .map(d => {
         return (
           ..d,
+          track: d.acf.track,
           date-time-start: parse-date-time(d.acf.start_time),
           date-time-end: parse-date-time(d.acf.end_time),
           agenda-items: get-session-items-by-id(agenda, d.id),
@@ -67,7 +68,10 @@
 
   let agenda-items-without-session = agenda.filter(d => ("session" not in d.acf or d.acf.session == false))
 
-  let schedule-items = (..sessions, ..agenda-items-without-session).sorted(key: d => d.date-time-start)
+  let schedule-items = (
+    ..sessions.sorted(key: d => d.track),
+    ..agenda-items-without-session,
+  ).sorted(key: d => d.date-time-start)
 
   let days = schedule-items
     .sorted(key: d => d.date-time-start)
