@@ -48,6 +48,7 @@
 
 #show heading.where(level: 1): set block(above: .5em, below: 0em)
 #show heading.where(level: 2): set text(weight: 400, size: 1em)
+#show heading.where(level: 2): set block(below: 0.5em)
 #show heading.where(level: 3): set text(weight: 600)
 #show heading.where(level: 3): set block(below: 0.45em)
 
@@ -77,6 +78,9 @@
           columns: (1fr, 1fr), gutter: 1em,
           ..sessions.map(d => {
             let items = d.at("agenda-items", default: ())
+            let moderator-ref = d.acf.at("moderator", default: none)
+            // panic(d)
+            let moderator = if moderator-ref != none { get-speaker-by-id(agenda, moderator-ref) } else { none }
             let isSessionWithItems = items.len() > 0
             let hasParallelSession = (
               sessions.filter(parallel-item => d.date-time-start == parallel-item.date-time-start).len() > 1
@@ -90,6 +94,11 @@
                 sym.dash.en
                 d.date-time-end.display("[hour]:[minute]")
                 location-item(d.location)
+                if moderator != none {
+                  [ · ]
+                  box(inset: (right: .25em), baseline: 0.1em, image("links/mic-line.svg", height: .8em))
+                  moderator.post_title
+                }
                 stack(dir: ttb, spacing: .5em, ..items.map(i => agenda-item((i))))
               } else {
                 agenda-item(d)
