@@ -25,8 +25,8 @@ jobs:
             - name: Install system deps
               run: sudo apt-get update -y && sudo apt-get install -y --no-install-recommends ca-certificates curl make tar gzip
 
-            - name: Build (get data)
-              run: make refresh
+            - name: Fetch data
+              run: make fetch-data
 
             # Install fonts
             - uses: fontist/setup-fontist@v2

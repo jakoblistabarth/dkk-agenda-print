@@ -56,6 +56,7 @@
 
 #let agenda = parse-agenda("agenda.json")
 #let schedule-items = extract-schedule-items(agenda)
+#let speakers = get-speakers()
 
 #pad(top: 1em, {
   set text(fill: colors.dark-green)
@@ -73,13 +74,12 @@
     .map(
       ((date, sessions)) => {
         heading(level: 1, date)
-        v(1em)
         grid(
           columns: (1fr, 1fr), gutter: 1em,
           ..sessions.map(d => {
             let items = d.at("agenda-items", default: ())
             let moderator-ref = d.acf.at("moderator", default: none)
-            let moderator = if moderator-ref != none { get-speaker-by-id(agenda, moderator-ref) } else { none }
+            let moderator = if moderator-ref != none { get-speaker-by-id(speakers, moderator-ref) } else { none }
             let isSessionWithItems = items.len() > 0
             let hasParallelSession = (
               sessions.filter(parallel-item => d.date-time-start == parallel-item.date-time-start).len() > 1
@@ -99,7 +99,9 @@
                   (
                     box(baseline: 0.1em, image("links/mic-line.svg", height: .8em))
                       + sym.space.nobreak
-                      + moderator.post_title.replace(" ", sym.space.nobreak)
+                      + moderator.firstname
+                      + sym.space.nobreak
+                      + moderator.lastname
                   )
                 }
                 stack(dir: ttb, spacing: .5em, ..items.map(i => agenda-item((i))))

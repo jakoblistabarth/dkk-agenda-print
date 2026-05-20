@@ -64,17 +64,13 @@
 }
 
 // Get all speakers from the agenda
-#let get-speakers = agenda => {
-  return (
-    agenda
-      .filter(d => "speaker" in d.acf and d.acf.speaker != none and d.acf.speaker != false)
-      .map(d => d.acf.speaker)
-      .flatten()
-      .dedup(key: d => d.ID)
-  )
+#let get-speakers = () => {
+  json("speakers.json").map(d => (id: d.id, ..d.acf))
 }
 
-#let get-speaker-by-id = (agenda, id) => get-speakers(agenda).find(s => s.ID == id)
+#let get-speaker-by-id = (speakers, id) => {
+  get-speakers().find(s => s.id == id)
+}
 
 #let extract-schedule-items = agenda => {
   let sessions = get-sessions(agenda)
