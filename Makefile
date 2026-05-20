@@ -18,5 +18,5 @@ fetch-data:
 	@echo "Speakers data downloaded and saved to $(SPEAKERS_OUT)"
 
 clean:
-	@rm -f $(AGENDA_OUT) $(LOCATIONS_OUT)
-	@echo "Removed $(AGENDA_OUT) and $(LOCATIONS_OUT)"
+	@rm -f $(AGENDA_OUT) $(LOCATIONS_OUT) $(SPEAKERS_OUT)
+	@echo "Removed $(AGENDA_OUT), $(LOCATIONS_OUT) and $(SPEAKERS_OUT)"
