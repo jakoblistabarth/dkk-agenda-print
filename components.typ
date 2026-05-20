@@ -59,18 +59,22 @@
     }
     show heading: set block(above: .7em)
     heading(level: 3, html-unescape(d.title.rendered))
-    [#start-time#sym.dash.en#end-time]
-    if (
-      // show location if exists for non-talk items
-      "location" in d and d.location != none and d.type.slug != "talk"
-    ) { location-item(d.location) }
-    if (speaker != false and speaker.len() > 0) {
-      let icon = if (speaker.len() > 1) { "links/group-line.svg" } else { "links/user-line.svg" }
-      [ · ]
-      (
-        box(inset: (x: .25em), image(icon, height: .8em))
-          + speaker.map(s => s.post_title.replace(" ", sym.space.nobreak)).join(" · ")
-      )
+    set par(leading: .4em)
+    {
+      start-time + sym.dash.en + end-time
+      if (
+        // show location if exists for non-talk items
+        "location" in d and d.location != none and d.type.slug != "talk"
+      ) { location-item(d.location) }
+      if (speaker != false and speaker.len() > 0) {
+        let icon = if (speaker.len() > 1) { "links/group-line.svg" } else { "links/user-line.svg" }
+        [ · ]
+        (
+          box(inset: (top: -1em, right: .05em), baseline: 0.1em, image(icon, height: .8em))
+            + sym.space.nobreak
+            + speaker.map(s => s.post_title.replace(" ", sym.space.nobreak)).join(" · ")
+        )
+      }
     }
   },
 )

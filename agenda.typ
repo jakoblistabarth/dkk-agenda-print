@@ -79,7 +79,6 @@
           ..sessions.map(d => {
             let items = d.at("agenda-items", default: ())
             let moderator-ref = d.acf.at("moderator", default: none)
-            // panic(d)
             let moderator = if moderator-ref != none { get-speaker-by-id(agenda, moderator-ref) } else { none }
             let isSessionWithItems = items.len() > 0
             let hasParallelSession = (
@@ -90,14 +89,18 @@
               colspan: if (hasParallelSession == true) { 1 } else { 2 },
               if (isSessionWithItems) {
                 heading(level: 2, d.title.rendered)
+                set par(leading: .4em)
                 d.date-time-start.display("[hour]:[minute]")
                 sym.dash.en
                 d.date-time-end.display("[hour]:[minute]")
                 location-item(d.location)
                 if moderator != none {
-                  [ · ]
-                  box(inset: (right: .25em), baseline: 0.1em, image("links/mic-line.svg", height: .8em))
-                  moderator.post_title
+                  linebreak()
+                  (
+                    box(baseline: 0.1em, image("links/mic-line.svg", height: .8em))
+                      + sym.space.nobreak
+                      + moderator.post_title.replace(" ", sym.space.nobreak)
+                  )
                 }
                 stack(dir: ttb, spacing: .5em, ..items.map(i => agenda-item((i))))
               } else {
@@ -111,7 +114,7 @@
     .join("")
 )
 
-#v(5em)
+#v(1fr)
 #rect(fill: colors.light-green, radius: .5em, inset: 2em, width: 100%, grid(
   columns: (1fr, auto),
   gutter: 3em,
