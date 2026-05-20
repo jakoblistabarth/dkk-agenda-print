@@ -10,11 +10,13 @@ SPEAKERS_OUT := speakers.json
 # Download
 fetch-data:
 	@echo "Download..."
-	@curl -o $(AGENDA_OUT) "$(AGENDA_URL)" || { echo "Download failed"; exit 1; }
+	@curl -o $(AGENDA_OUT) --max-time 5 "$(AGENDA_URL)" || { echo "Download failed"; exit 1; }
 	@echo "Agenda data downloaded and saved to $(AGENDA_OUT)"
-	@curl -o $(LOCATIONS_OUT) "$(LOCATIONS_URL)" || { echo "Download failed"; exit 1; }
+	@sleep 2
+	@curl -o $(LOCATIONS_OUT) --max-time 5 "$(LOCATIONS_URL)" || { echo "Download failed"; exit 1; }
 	@echo "Locations data downloaded and saved to $(LOCATIONS_OUT)"
-	@curl -o $(SPEAKERS_OUT) "$(SPEAKERS_URL)" || { echo "Download failed"; exit 1; }
+	@sleep 2
+	@curl -o $(SPEAKERS_OUT) --max-time 5 "$(SPEAKERS_URL)" || { echo "Download failed"; exit 1; }
 	@echo "Speakers data downloaded and saved to $(SPEAKERS_OUT)"
 
 clean:
