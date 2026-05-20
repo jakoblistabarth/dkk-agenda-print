@@ -74,6 +74,7 @@
     .map(
       ((date, sessions)) => {
         heading(level: 1, date)
+        v(1em)
         grid(
           columns: (1fr, 1fr), gutter: 1em,
           ..sessions.map(d => {
@@ -85,7 +86,7 @@
               sessions.filter(parallel-item => d.date-time-start == parallel-item.date-time-start).len() > 1
             )
             grid.cell(
-              inset: (top: if isSessionWithItems { 1em } else { 0em }),
+              inset: (top: if isSessionWithItems { .5em } else { 0em }),
               colspan: if (hasParallelSession == true) { 1 } else { 2 },
               if (isSessionWithItems) {
                 heading(level: 2, d.title.rendered)
