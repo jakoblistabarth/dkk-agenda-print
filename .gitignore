@@ -1,6 +1,6 @@
 agenda.json
 locations.json
 
-*.pdf
+/*.pdf
 
 .DS_Store

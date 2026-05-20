@@ -20,7 +20,7 @@
           spacing: .5em,
           align(right, text(size: .5em)[Mit freundlicher\ Unterstützung von]),
           image("links/Esri_Deutschland_Emblem_tag_ohne_1C.png", height: 2em),
-          image("links/ocad-logo.jpg", height: 1.5em),
+          image("links/OCAD_Logo+_cmyk_carto_claim.pdf", height: 1.5em),
         )
       }),
       if here().page() > 1 {
