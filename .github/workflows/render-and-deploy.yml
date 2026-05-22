@@ -29,6 +29,10 @@ jobs:
               run: make fetch-data
 
             # Install fonts
+            - uses: actions/cache@v4
+              with:
+                  path: ~/.fontist
+                  key: fontist-${{ runner.os }}
             - uses: fontist/setup-fontist@v2
             - run: fontist install --formula "google/source_sans_3"
 
@@ -60,4 +64,4 @@ jobs:
             pages: write
         steps:
             - name: Deploy to GitHub Pages
-              uses: actions/deploy-pages@v4
+              uses: actions/deploy-pages@v5
