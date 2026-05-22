@@ -4,6 +4,12 @@
 #import "components.typ": *
 #import "utils.typ": *
 
+#let compile-time = if "compile-time" in sys.inputs {
+  sys.inputs.at("compile-time")
+} else {
+  none
+}
+
 #set document(author: "Jakob Listabarth", title: "74. Deutscher Kartographie Kongress 2026", date: datetime.today())
 #set page(
   paper: "a5",
@@ -36,7 +42,7 @@
   },
   footer: context {
     set text(size: .8em)
-    [Stand: #custom-date-format(document.date, lang: "de")]
+    [Stand: #custom-date-format(datetime.today(), lang: "de", pattern: "EEE, d. MMMM yyyy"), #compile-time]
     h(1fr)
     counter(page).display("1 von 1", both: true)
   },

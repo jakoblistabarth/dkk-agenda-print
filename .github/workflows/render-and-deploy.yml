@@ -32,9 +32,12 @@ jobs:
             - uses: fontist/setup-fontist@v2
             - run: fontist install --formula "google/source_sans_3"
 
-            # Install typst
+            # Install typst and render PDF
             - uses: typst-community/setup-typst@v5
-            - run: typst c agenda.typ dkk-programm.pdf --font-path ~/.fontist/fonts
+            - run: |
+                  typst c agenda.typ dkk-programm.pdf \
+                      --font-path ~/.fontist/fonts \
+                      --input compile-time="$(date '+%H:%M:%S')"
 
             - name: Prepare Pages artifact
               run: |
