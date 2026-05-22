@@ -40,8 +40,10 @@ jobs:
             - uses: typst-community/setup-typst@v5
             - run: |
                   typst c agenda.typ dkk-programm.pdf \
-                      --font-path ~/.fontist/fonts \
-                      --input compile-time="$(date '+%H:%M:%S')"
+                    --font-path ~/.fontist/fonts \
+                    --input compile-time="$(date '+%H:%M:%S')"
+              env:
+                  TZ: Europe/Berlin
 
             - name: Prepare Pages artifact
               run: |
